@@ -21,7 +21,7 @@ import ast
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from ._pep810 import strip_lazy
+from ._syntax import strip_lazy
 from .knowledge import (
     Confidence,
     EffectKind,

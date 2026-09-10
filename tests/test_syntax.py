@@ -4,7 +4,7 @@ import ast
 
 import pytest
 
-from lazyimp._pep810 import insert_lazy, splitlines_keepends, strip_lazy
+from pep810._syntax import insert_lazy, splitlines_keepends, strip_lazy
 
 
 def test_strips_only_real_soft_keywords():

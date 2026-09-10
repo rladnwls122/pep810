@@ -128,7 +128,7 @@ def module_name_for(file: Path, source_roots: list[Path] | None = None) -> str:
 
 
 def load_config(root: Path) -> dict:
-    """Read ``[tool.lazyimp]`` from ``pyproject.toml``, if there is one.
+    """Read ``[tool.pep810]`` from ``pyproject.toml``, if there is one.
 
     Returns an empty mapping when the file, the table or a TOML parser is
     missing; configuration is a convenience, never a requirement.
@@ -151,5 +151,5 @@ def load_config(root: Path) -> dict:
     tool = data.get("tool")
     if not isinstance(tool, dict):
         return {}
-    config = tool.get("lazyimp")
+    config = tool.get("pep810")
     return config if isinstance(config, dict) else {}

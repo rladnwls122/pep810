@@ -2,13 +2,13 @@
 
 Five verbs, in the order a migration uses them::
 
-    lazyimp analyze src/          # what could be lazy, and what must not be
-    lazyimp hotspots -e "import myapp"   # what is actually expensive
-    lazyimp apply src/ --write    # rewrite the safe ones
-    lazyimp bench -e "import myapp"      # prove it worked
-    lazyimp filter src/ -o sitecustomize.py   # or skip the codemod entirely
+    pep810 analyze src/          # what could be lazy, and what must not be
+    pep810 hotspots -e "import myapp"   # what is actually expensive
+    pep810 apply src/ --write    # rewrite the safe ones
+    pep810 bench -e "import myapp"      # prove it worked
+    pep810 filter src/ -o sitecustomize.py   # or skip the codemod entirely
 
-Plus ``lazyimp check`` for CI, which reports the same findings and exits
+Plus ``pep810 check`` for CI, which reports the same findings and exits
 non-zero when something regressed.
 """
 
@@ -20,7 +20,7 @@ from pathlib import Path
 
 from . import __version__
 from .api import analyze_paths, build_filter_plan
-from .bench import LazyImportsUnsupported, run_benchmark, supports_pep810
+from .bench import LazyImportsUnsupported, run_benchmark, supports_lazy_imports
 from .codemod import apply_edits, render_lazy_modules, rewrite
 from .filters import render_filter_module
 from .importtime import measure_importtime
@@ -43,10 +43,10 @@ EXIT_ERROR = 2
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="lazyimp",
+        prog="pep810",
         description="Find, apply and measure PEP 810 lazy imports.",
     )
-    parser.add_argument("--version", action="version", version=f"lazyimp {__version__}")
+    parser.add_argument("--version", action="version", version=f"pep810 {__version__}")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     def add_analysis_options(sub: argparse.ArgumentParser) -> None:
@@ -272,7 +272,7 @@ def _cmd_hotspots(args: argparse.Namespace) -> int:
 
 
 def _cmd_bench(args: argparse.Namespace) -> int:
-    if not supports_pep810(args.python):
+    if not supports_lazy_imports(args.python):
         print(
             f"error: {args.python} does not implement PEP 810.\n"
             f"       Use --python to point at a Python 3.15+ build.",

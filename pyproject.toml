@@ -1,35 +1,35 @@
 [build-system]
-requires = ["setuptools>=61"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "lazyimp"
+name = "pep810"
 version = "0.1.0"
 description = "Find, apply and measure PEP 810 lazy imports"
 readme = "README.md"
 requires-python = ">=3.9"
-license = { text = "MIT" }
+license = "0BSD"
+license-files = ["LICENSE"]
 keywords = ["pep810", "lazy-imports", "startup", "codemod", "static-analysis"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
     "Topic :: Software Development :: Quality Assurance",
 ]
 dependencies = []
 
 [project.urls]
-Homepage = "https://github.com/rladnwls122/lazyimp"
-Source = "https://github.com/rladnwls122/lazyimp"
-Issues = "https://github.com/rladnwls122/lazyimp/issues"
+Homepage = "https://github.com/rladnwls122/pep810"
+Source = "https://github.com/rladnwls122/pep810"
+Issues = "https://github.com/rladnwls122/pep810/issues"
 
 [project.optional-dependencies]
 toml = ["tomli>=2.0; python_version<'3.11'"]
 dev = ["pytest>=7"]
 
 [project.scripts]
-lazyimp = "lazyimp.cli:main"
+pep810 = "pep810.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -31,7 +31,7 @@ __all__ = [
     "Measurement",
     "Comparison",
     "LazyImportsUnsupported",
-    "supports_pep810",
+    "supports_lazy_imports",
     "measure",
     "run_benchmark",
 ]
@@ -166,7 +166,7 @@ class Comparison:
         return left[-1] < right[0] or right[-1] < left[0]
 
 
-def supports_pep810(python: str | Path = sys.executable) -> bool:
+def supports_lazy_imports(python: str | Path = sys.executable) -> bool:
     """Whether ``python`` actually implements PEP 810.
 
     Passing ``-X lazy_imports=none`` proves nothing: CPython accepts any
@@ -291,7 +291,7 @@ def run_benchmark(
     Raises :exc:`LazyImportsUnsupported` when ``python`` predates PEP 810: both
     sides would run the same code and the difference reported would be noise.
     """
-    if not supports_pep810(python):
+    if not supports_lazy_imports(python):
         raise LazyImportsUnsupported(
             f"{python} does not implement PEP 810, so eager and lazy runs would be "
             f"identical; point --python at a Python 3.15+ interpreter"

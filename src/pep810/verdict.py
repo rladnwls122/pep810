@@ -1,8 +1,8 @@
 """Turn the analysis signals into a decision about one import statement.
 
-Three inputs meet here: where the statement sits (:mod:`lazyimp.analyzer`), how
+Three inputs meet here: where the statement sits (:mod:`pep810.analyzer`), how
 its bound names are used in the same file, and what importing its target
-actually does (:mod:`lazyimp.effects`).  The output is a :class:`Decision` plus
+actually does (:mod:`pep810.effects`).  The output is a :class:`Decision` plus
 the reasons behind it, each carrying a stable code so a project can silence an
 individual class of finding in CI the way it would silence a lint rule.
 

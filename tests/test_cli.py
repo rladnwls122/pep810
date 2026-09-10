@@ -4,7 +4,7 @@ import json
 
 import pytest
 
-from lazyimp.cli import EXIT_ERROR, EXIT_FINDINGS, EXIT_OK, main
+from pep810.cli import EXIT_ERROR, EXIT_FINDINGS, EXIT_OK, main
 
 
 @pytest.fixture()
@@ -45,7 +45,7 @@ def test_analyze_json_is_machine_readable(project, capsys):
 def test_analyze_markdown_renders_tables(project, capsys):
     main(["analyze", str(project), "--format", "markdown"])
     out = capsys.readouterr().out
-    assert out.startswith("# lazyimp report") and "| decision | count |" in out
+    assert out.startswith("# pep810 report") and "| decision | count |" in out
 
 
 def test_apply_without_write_leaves_files_alone(project, capsys):
@@ -97,7 +97,7 @@ def test_ignore_suppresses_a_reason_code(project, capsys):
     assert "E201" not in codes
 
 
-def test_bench_refuses_an_interpreter_without_pep810(capsys):
+def test_bench_refuses_an_interpreter_without_syntax(capsys):
     assert main(["bench", "-e", "import json"]) == EXIT_ERROR
     assert "does not implement PEP 810" in capsys.readouterr().err
 

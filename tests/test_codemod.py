@@ -2,11 +2,11 @@
 
 from pathlib import Path
 
-from lazyimp.analyzer import analyze_source
-from lazyimp.codemod import rewrite, render_lazy_modules
-from lazyimp.effects import EffectAnalyzer
-from lazyimp.resolver import ModuleResolver
-from lazyimp.verdict import Decision, Policy, judge
+from pep810.analyzer import analyze_source
+from pep810.codemod import rewrite, render_lazy_modules
+from pep810.effects import EffectAnalyzer
+from pep810.resolver import ModuleResolver
+from pep810.verdict import Decision, Policy, judge
 
 
 def edit_for(source, path=Path("demo.py"), accept=frozenset({Decision.SAFE})):

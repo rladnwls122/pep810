@@ -4,11 +4,11 @@ from pathlib import Path
 
 import pytest
 
-from lazyimp.analyzer import analyze_source
-from lazyimp.effects import EffectAnalyzer
-from lazyimp.knowledge import Confidence
-from lazyimp.resolver import ModuleResolver
-from lazyimp.verdict import Decision, Policy, judge
+from pep810.analyzer import analyze_source
+from pep810.effects import EffectAnalyzer
+from pep810.knowledge import Confidence
+from pep810.resolver import ModuleResolver
+from pep810.verdict import Decision, Policy, judge
 
 
 def decide(source, policy=None, root=None, path="demo.py"):

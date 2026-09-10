@@ -140,7 +140,7 @@ def build_filter_plan(
     lazy_only_prefixes: list[str] | None = None,
     mode: str = "all",
 ) -> FilterPlan:
-    """Derive a :class:`~lazyimp.filters.FilterPlan` from an analysis.
+    """Derive a :class:`~pep810.filters.FilterPlan` from an analysis.
 
     Every module that made an import risky or unsafe goes on the deny list, so
     running under ``-X lazy_imports=all`` reproduces the behaviour the codemod

@@ -1,4 +1,4 @@
-# lazyimp
+# pep810
 
 Find, apply and measure [PEP 810](https://peps.python.org/pep-0810/) lazy imports.
 
@@ -19,12 +19,12 @@ PEP 810 anticipates the gap in its own text:
 > Static analysis tools could detect modules with side effects and automatically
 > configure filters.
 
-`lazyimp` is that tool, plus the two things you need on either side of it: a
+`pep810` is that tool, plus the two things you need on either side of it: a
 codemod that applies the answer, and a benchmark that checks the answer was
 worth applying.
 
 ```console
-$ lazyimp analyze src/
+$ pep810 analyze src/
 src/myapp/core.py
       4  safe                   import subprocess
          S500: no import-time side effects found; safe to defer
@@ -46,7 +46,7 @@ src/myapp/__init__.py
 ## Install
 
 ```console
-$ pip install lazyimp
+$ pip install pep810
 ```
 
 No dependencies. Runs on Python 3.9+ — you do not need 3.15 to analyse or rewrite
@@ -55,14 +55,14 @@ code for 3.15, only to benchmark it.
 ## The five commands
 
 ```console
-$ lazyimp analyze src/                     # what could be lazy, and what must not be
-$ lazyimp hotspots src/ -e "import myapp"  # what is actually expensive
-$ lazyimp apply src/ --write               # rewrite the safe ones
-$ lazyimp bench -e "import myapp"          # prove it worked
-$ lazyimp filter src/ -o sitecustomize.py  # or skip the codemod entirely
+$ pep810 analyze src/                     # what could be lazy, and what must not be
+$ pep810 hotspots src/ -e "import myapp"  # what is actually expensive
+$ pep810 apply src/ --write               # rewrite the safe ones
+$ pep810 bench -e "import myapp"          # prove it worked
+$ pep810 filter src/ -o sitecustomize.py  # or skip the codemod entirely
 ```
 
-Plus `lazyimp check` for CI, which fails the build when an import that could be
+Plus `pep810 check` for CI, which fails the build when an import that could be
 lazy still is not.
 
 ### analyze
@@ -83,13 +83,13 @@ Reasons carry stable codes you can silence like lint rules — `E` blocks the
 rewrite, `W` marks it risky, `I` is informational:
 
 ```console
-$ lazyimp analyze src/ --ignore W311 --ignore I403
+$ pep810 analyze src/ --ignore W311 --ignore I403
 ```
 
 or in `pyproject.toml`:
 
 ```toml
-[tool.lazyimp]
+[tool.pep810]
 ignore = ["W311"]
 exclude = ["vendor"]
 ```
@@ -128,7 +128,7 @@ with `-X lazy_imports=all` and let a generated deny-list force back to eager
 exactly the modules the analysis found unsafe:
 
 ```console
-$ lazyimp filter src/ -o sitecustomize.py --lazy-only myapp
+$ pep810 filter src/ -o sitecustomize.py --lazy-only myapp
 $ python -X lazy_imports=all -m myapp
 ```
 
@@ -143,7 +143,7 @@ statement *runs*, so it has to be installed before your entry point — from
 do first:
 
 ```console
-$ lazyimp hotspots src/ -e "import myapp"
+$ pep810 hotspots src/ -e "import myapp"
       cost  verdict        module
    41.2 ms  safe           pandas
    18.7 ms  risky          myapp.plugins
@@ -158,7 +158,7 @@ to eager — so both sides run the same files on the same interpreter and differ
 exactly one variable:
 
 ```console
-$ lazyimp bench -e "import myapp" --runs 15
+$ pep810 bench -e "import myapp" --runs 15
 eager (-X lazy_imports=none)     412.6 ms process    331.0 ms import  (range 401.2-433.8)  1284 modules  84.2 MiB
 lazy (as written)                168.3 ms process     92.4 ms import  (range 161.9-179.4)   412 modules  51.7 MiB
 
@@ -169,7 +169,7 @@ process -59.2%   import -72.1%   memory -38.6%   modules -872
 Startup benchmarks are noisy, so the report carries the spread and says so
 outright when the two sample ranges overlap. Benchmarking needs a Python 3.15+
 interpreter; point `--python` at one if it is not the interpreter running the
-tool. `lazyimp` refuses to report a comparison it cannot actually make.
+tool. `pep810` refuses to report a comparison it cannot actually make.
 
 ## How the analysis decides
 
@@ -207,7 +207,7 @@ Everything is a heuristic, and the tool says which ones it is confident about.
 
 `lazy import json` is a `SyntaxError` on every Python before 3.15, which would
 otherwise stop the tool from running on the interpreter most projects are
-migrating *from*. `lazyimp` reads and writes PEP 810 source on 3.9+ by finding
+migrating *from*. `pep810` reads and writes PEP 810 source on 3.9+ by finding
 the soft keywords with `tokenize` — which knows about strings and comments, so
 `lazy = 1` and `"lazy import x"` in a docstring are not mistaken for keywords —
 stripping them for parsing, and mapping the AST's offsets back onto the original
@@ -217,16 +217,16 @@ bytes.
 
 ```python
 from pathlib import Path
-from lazyimp import analyze_paths, Decision, Policy
+from pep810 import analyze_paths, Decision, Policy
 
 result = analyze_paths([Path("src")], Policy(include_low_benefit=True))
 for file, verdict in result.verdicts(Decision.SAFE):
     print(f"{file.path}:{verdict.site.lineno} {verdict.site.source_line.strip()}")
 ```
 
-The layers underneath are independently useful: `lazyimp.analyzer` for import
-sites and usage, `lazyimp.effects` for import-time side effects,
-`lazyimp.importtime` for parsing `-X importtime`, `lazyimp.codemod` for the
+The layers underneath are independently useful: `pep810.analyzer` for import
+sites and usage, `pep810.effects` for import-time side effects,
+`pep810.importtime` for parsing `-X importtime`, `pep810.codemod` for the
 minimal-diff rewrite.
 
 ## Limitations
@@ -244,4 +244,5 @@ minimal-diff rewrite.
 
 ## Licence
 
-MIT.
+[0BSD](LICENSE) -- public-domain-equivalent. Use it for anything, with no
+attribution required.

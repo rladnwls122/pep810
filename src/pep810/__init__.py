@@ -9,23 +9,23 @@ wrong is silent: an import kept only for its side effect simply stops happening.
 This package answers that question statically and then acts on the answer.
 
     >>> from pathlib import Path
-    >>> from lazyimp import analyze_paths
+    >>> from pep810 import analyze_paths
     >>> result = analyze_paths([Path("src")])          # doctest: +SKIP
     >>> result.counts[Decision.SAFE]                   # doctest: +SKIP
     42
 
 The pipeline is four steps, each usable on its own:
 
-:mod:`lazyimp.analyzer`
+:mod:`pep810.analyzer`
     Where each import sits and how its names are used in that file.
-:mod:`lazyimp.effects`
+:mod:`pep810.effects`
     What importing the target module actually does, transitively.
-:mod:`lazyimp.verdict`
+:mod:`pep810.verdict`
     The decision, with reason codes you can suppress like lint rules.
-:mod:`lazyimp.codemod` / :mod:`lazyimp.filters`
+:mod:`pep810.codemod` / :mod:`pep810.filters`
     Rewrite the source, or generate the runtime filter PEP 810 invites instead.
 
-:mod:`lazyimp.bench` closes the loop by measuring startup with lazy imports
+:mod:`pep810.bench` closes the loop by measuring startup with lazy imports
 forced off and then on, so the claim can be checked rather than assumed.
 """
 
@@ -35,7 +35,7 @@ __version__ = "0.1.0"
 
 from .analyzer import FileAnalysis, ImportContext, ImportSite, analyze_file, analyze_source
 from .api import AnalysisResult, FileResult, analyze_paths, build_filter_plan
-from .bench import Comparison, Measurement, run_benchmark, supports_pep810
+from .bench import Comparison, Measurement, run_benchmark, supports_lazy_imports
 from .codemod import FileEdit, render_lazy_modules, rewrite
 from .effects import Effect, EffectAnalyzer, ModuleEffects, scan_source
 from .filters import FilterPlan, render_filter_module
@@ -82,5 +82,5 @@ __all__ = [
     "rewrite",
     "run_benchmark",
     "scan_source",
-    "supports_pep810",
+    "supports_lazy_imports",
 ]

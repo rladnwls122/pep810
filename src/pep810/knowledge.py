@@ -1,6 +1,6 @@
 """Curated tables of what module-level code does at import time.
 
-The effect scanner in :mod:`lazyimp.effects` classifies each module-level
+The effect scanner in :mod:`pep810.effects` classifies each module-level
 statement, and most of that classification comes down to "what does this call
 do?".  Answering that in general is undecidable, so this module encodes the
 answer for the calls that actually show up at the top level of real code.

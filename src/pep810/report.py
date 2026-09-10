@@ -284,7 +284,7 @@ def render_markdown(result: AnalysisResult, root: Path | None = None) -> str:
     root = root or result.project.root
     counts = result.counts
     lines = [
-        "# lazyimp report",
+        "# pep810 report",
         "",
         f"Analysed **{len(result.files)}** files and "
         f"**{result.total_imports}** import statements.",

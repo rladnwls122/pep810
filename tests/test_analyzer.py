@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from lazyimp.analyzer import ImportContext, analyze_source
+from pep810.analyzer import ImportContext, analyze_source
 
 
 def analyze(source: str, name: str = "demo.py"):

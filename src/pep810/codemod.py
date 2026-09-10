@@ -20,7 +20,7 @@ import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from ._pep810 import insert_lazy, strip_lazy
+from ._syntax import insert_lazy, strip_lazy
 from .analyzer import FileAnalysis
 from .verdict import Decision, Verdict
 

@@ -31,7 +31,7 @@ import enum
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from ._pep810 import StrippedSource, splitlines_keepends, strip_lazy
+from ._syntax import StrippedSource, splitlines_keepends, strip_lazy
 
 __all__ = [
     "ImportContext",

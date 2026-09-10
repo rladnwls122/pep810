@@ -2,9 +2,9 @@
 
 import pytest
 
-from lazyimp.effects import EffectAnalyzer, scan_source
-from lazyimp.knowledge import Confidence, EffectKind
-from lazyimp.resolver import ModuleResolver
+from pep810.effects import EffectAnalyzer, scan_source
+from pep810.knowledge import Confidence, EffectKind
+from pep810.resolver import ModuleResolver
 
 
 def kinds(source):

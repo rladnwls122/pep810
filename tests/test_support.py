@@ -4,10 +4,10 @@ from pathlib import Path
 
 import pytest
 
-from lazyimp.filters import FilterPlan, render_filter_module
-from lazyimp.importtime import parse_importtime
-from lazyimp.project import discover, load_config, module_name_for
-from lazyimp.resolver import ModuleKind, ModuleResolver
+from pep810.filters import FilterPlan, render_filter_module
+from pep810.importtime import parse_importtime
+from pep810.project import discover, load_config, module_name_for
+from pep810.resolver import ModuleKind, ModuleResolver
 
 
 # --- resolver --------------------------------------------------------------
@@ -75,7 +75,7 @@ def test_loose_script_keeps_its_stem(tmp_path):
 
 def test_config_is_optional(tmp_path):
     assert load_config(tmp_path) == {}
-    (tmp_path / "pyproject.toml").write_text('[tool.lazyimp]\nignore = ["W311"]\n')
+    (tmp_path / "pyproject.toml").write_text('[tool.pep810]\nignore = ["W311"]\n')
     assert load_config(tmp_path) == {"ignore": ["W311"]}
 
 
